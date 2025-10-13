@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OneWordBeam - Your Daily Light</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            max-width: 500px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+        }
+
+        .time-indicator {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeIn 1s ease 0.2s forwards;
+        }
+
+        .word-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            margin-bottom: 2rem;
+            width: 100%;
+            text-align: center;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.3s forwards;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .daily-word {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .word-description {
+            font-size: 1rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .premium-section {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            width: 100%;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.5s forwards;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .premium-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .premium-advice {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .locked-content {
+            filter: blur(5px);
+            user-select: none;
+            margin-bottom: 1rem;
+        }
+
+        .unlock-btn {
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+            color: #333;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            width: 100%;
+        }
+
+        .unlock-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .evening-locked {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            width: 100%;
+            text-align: center;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.7s forwards;
+        }
+
+        .evening-locked-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .evening-locked-text {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .stats {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.9s forwards;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .share-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            opacity: 0;
+            animation: fadeInUp 1s ease 1.1s forwards;
+        }
+
+        .share-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        .premium-content {
+            display: none;
+        }
+
+        .premium-content.active {
+            display: block;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 1rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            color: #333;
+            padding: 2rem;
+            border-radius: 20px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+
+        .modal-text {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .modal-features {
+            text-align: left;
+            margin-bottom: 1.5rem;
+            background: #f5f5f5;
+            padding: 1rem;
+            border-radius: 10px;
+        }
+
+        .modal-features li {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .pricing {
+            background: #f5f5f5;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        .price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .price-annual {
+            font-size: 1rem;
+            opacity: 0.7;
+            margin-top: 0.5rem;
+        }
+
+        .modal-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
+
+        .close-modal {
+            background: transparent;
+            color: #999;
+            border: none;
+            padding: 0.5rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            from {
+                transform: translateY(20px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .daily-word {
+                font-size: 2.5rem;
+            }
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">OneWordBeam ✨</div>
+        <div class="time-indicator" id="timeIndicator">☀️ Buongiorno</div>
+
+        <div class="word-container">
+            <div class="daily-word" id="dailyWord">ENERGIA</div>
+            <div class="word-description" id="wordDescription">
+                Oggi porta energia in tutto ciò che fai. L'energia attrae opportunità.
+            </div>
+        </div>
+
+        <div class="premium-section">
+            <span class="premium-badge">✨ PREMIUM</span>
+            
+            <div id="lockedContent" class="locked-content">
+                <div class="premium-advice">
+                    💡 Appena sveglio, bevi 1 bicchiere d'acqua tiepida con limone. Reidrata dopo il digiuno notturno e attiva la digestione.
+                </div>
+            </div>
+
+            <button class="unlock-btn" id="unlockBtn">
+                Sblocca 2 momenti al giorno per 1€/mese
+            </button>
+
+            <div class="premium-content" id="premiumContent">
+                <div class="premium-advice" id="premiumAdvice">
+                    <strong>💡 Consiglio del mattino:</strong><br><br>
+                    Appena sveglio, bevi 1 bicchiere d'acqua tiepida con limone. Reidrata dopo il digiuno notturno e attiva la digestione. Aspetta 15 minuti prima del caffè per evitare picchi di cortisolo.
+                </div>
+            </div>
+        </div>
+
+        <!-- Sezione serale (solo per premium) -->
+        <div class="evening-locked" id="eveningSection">
+            <div class="evening-locked-icon">🌙</div>
+            <div class="evening-locked-text">
+                La parola della sera si sblocca alle 21:00 con Premium
+            </div>
+            <small style="opacity: 0.7;">Ricevi un secondo momento di ispirazione prima di dormire</small>
+        </div>
+
+        <div class="stats">
+            <div class="stat">
+                <span class="stat-number" id="streak">1</span>
+                <span class="stat-label">Giorni</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">🔥</span>
+                <span class="stat-label">Streak</span>
+            </div>
+        </div>
+
+        <button class="share-btn" id="shareBtn">Condividi la parola</button>
+    </div>
+
+    <div class="modal" id="premiumModal">
+        <div class="modal-content">
+            <div class="modal-title">Sblocca 2 momenti quotidiani</div>
+            <div class="modal-text">
+                Trasforma mattino e sera in rituali di crescita personale.
+            </div>
+            <div class="modal-features">
+                <strong>Con Premium ricevi:</strong>
+                <ul style="margin-top: 0.5rem;">
+                    <li>☀️ <strong>Parola mattutina</strong> + consiglio pratico (8:00)</li>
+                    <li>🌙 <strong>Parola serale</strong> + consiglio rilassante (21:00)</li>
+                    <li>💡 Consigli su alimentazione, benessere, sonno</li>
+                    <li>📊 Statistiche avanzate</li>
+                    <li>🎨 Temi personalizzati</li>
+                </ul>
+            </div>
+            <div class="pricing">
+                <div class="price">1€/mese</div>
+                <div class="price-annual">oppure 15€/anno (risparmi 20%)</div>
+            </div>
+            <button class="modal-btn" id="subscribeBtn">Inizia ora</button>
+            <button class="close-modal" id="closeModal">Continua gratis (solo mattino)</button>
+        </div>
+    </div>
+
+    <script>
+        // Database delle parole MATTINO
+        const morningWords = [
+            { 
+                word: "ENERGIA", 
+                desc: "Oggi porta energia in tutto ciò che fai. L'energia attrae opportunità.",
+                premium: "Appena sveglio, bevi 1 bicchiere d'acqua tiepida con limone. Reidrata dopo il digiuno notturno e attiva la digestione. Aspetta 15 minuti prima del caffè per evitare picchi di cortisolo."
+            },
+            { 
+                word: "FOCUS", 
+                desc: "Concentrati su ciò che conta davvero. Il resto è rumore.",
+                premium: "Inizia la giornata con la 'regola del 3': identifica le 3 cose più importanti da fare oggi. Completale prima di tutto il resto. Aumenta la produttività del 40%."
+            },
+            { 
+                word: "GRATITUDINE", 
+                desc: "Inizia riconoscendo ciò che già hai. La gratitudine moltiplica l'abbondanza.",
+                premium: "Prima di alzarti dal letto, pensa a 3 cose per cui sei grato. Questa pratica mattutina aumenta l'ottimismo e riduce l'ansia del 25%."
+            },
+            { 
+                word: "MOVIMENTO", 
+                desc: "Il corpo è fatto per muoversi. Inizia in movimento.",
+                premium: "Fai 5 minuti di stretching dinamico appena sveglio: collo, spalle, schiena, gambe. Attiva la circolazione e prepara il corpo alla giornata."
+            },
+            { 
+                word: "CHIAREZZA", 
+                desc: "Una mente chiara prende decisioni migliori.",
+                premium: "Fai un 'brain dump' mattutino: scrivi tutto ciò che hai in testa per 5 minuti senza filtri. Libera la mente e inizia la giornata con chiarezza."
+            }
+        ];
+
+        // Database delle parole SERA
+        const eveningWords = [
+            { 
+                word: "QUIETE", 
+                desc: "La sera è per rilasciare. Lascia andare ciò che non ti serve più.",
+                premium: "Spegni tutti gli schermi 1 ora prima di dormire. Leggi 10 pagine di un libro cartaceo. La luce blu riduce melatonina del 50%, il libro cartaceo la favorisce."
+            },
+            { 
+                word: "RIFLESSIONE", 
+                desc: "Rifletti sulla giornata. Cosa hai imparato?",
+                premium: "Prima di dormire, scrivi: 1 vittoria del giorno, 1 cosa da migliorare, 1 gratitudine. Questo rituale migliora il sonno e l'autoconsapevolezza."
+            },
+            { 
+                word: "RESPIRO", 
+                desc: "Respira profondamente. Rilassa corpo e mente.",
+                premium: "Pratica la respirazione 4-7-8: inspira per 4 secondi, trattieni per 7, espira per 8. Ripeti 4 volte. Attiva il parasimpatico e prepara al sonno."
+            },
+            { 
+                word: "PERDONO", 
+                desc: "Perdona te stesso per gli errori di oggi. Domani è un nuovo inizio.",
+                premium: "Prima di dormire, ripeti mentalmente: 'Ho fatto del mio meglio oggi. Merito riposo'. Il perdono serale riduce il cortisolo notturno."
+            },
+            { 
+                word: "GRATITUDINE", 
+                desc: "Chiudi la giornata con riconoscenza. Il sonno sarà più sereno.",
+                premium: "Tieni un diario della gratitudine sul comodino. Scrivi 3 cose positive prima di spegnere la luce. Migliora la qualità del sonno del 30%."
+            }
+        ];
+
+        // Stato dell'app
+        let isPremium = false;
+        let streak = parseInt(localStorage.getItem('streak') || '1');
+        let isEvening = false;
+
+        // Inizializza l'app
+        function init() {
+            const now = new Date();
+            const hour = now.getHours();
+            
+            // Determina se è mattino o sera
+            isEvening = hour >= 21 || hour < 6;
+            
+            // Aggiorna indicatore tempo
+            const timeIndicator = document.getElementById('timeIndicator');
+            if (isEvening) {
+                timeIndicator.textContent = '🌙 Buonasera';
+            } else {
+                timeIndicator.textContent = '☀️ Buongiorno';
+            }
+            
+            // Ottieni la parola del giorno basata sulla data
+            const dayIndex = Math.floor(Date.now() / (1000 * 60 * 60 * 24)) % morningWords.length;
+            const todayMorning = morningWords[dayIndex];
+            const todayEvening = eveningWords[dayIndex];
+
+            // Se è sera E l'utente NON è premium, mostra il contenuto serale bloccato
+            if (isEvening && !isPremium) {
+                document.getElementById('dailyWord').textContent = todayEvening.word;
+                document.querySelector('.word-description').textContent = todayEvening.desc;
+                document.querySelector('.premium-advice').innerHTML = `<strong>💡 Consiglio della sera:</strong><br><br>${todayEvening.premium}`;
+            } else {
+                // Mostra contenuto mattutino
+                document.getElementById('dailyWord').textContent = todayMorning.word;
+                document.querySelector('.word-description').textContent = todayMorning.desc;
+                document.querySelector('.premium-advice').innerHTML = `<strong>💡 Consiglio del mattino:</strong><br><br>${todayMorning.premium}`;
+            }
+
+            document.getElementById('streak').textContent = streak;
+
+            // Controlla se l'utente ha già visitato oggi
+            const lastVisit = localStorage.getItem('lastVisit');
+            const today = new Date().toDateString();
+            
+            if (lastVisit !== today) {
+                if (lastVisit && isYesterday(lastVisit)) {
+                    streak++;
+                } else if (lastVisit) {
+                    streak = 1;
+                }
+                localStorage.setItem('streak', streak.toString());
+                localStorage.setItem('lastVisit', today);
+                document.getElementById('streak').textContent = streak;
+            }
+
+            // Controlla stato premium
+            isPremium = localStorage.getItem('isPremium') === 'true';
+            if (isPremium) {
+                showPremiumContent();
+            } else if (isEvening) {
+                // Se è sera e non è premium, mostra la sezione serale bloccata
+                document.getElementById('eveningSection').style.display = 'block';
+            }
+        }
+
+        function isYesterday(dateString) {
+            const yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            return dateString === yesterday.toDateString();
+        }
+
+        function showPremiumContent() {
+            document.getElementById('lockedContent').style.display = 'none';
+            document.getElementById('unlockBtn').style.display = 'none';
+            document.getElementById('premiumContent').classList.add('active');
+            document.getElementById('eveningSection').style.display = 'none';
+        }
+
+        // Event listeners
+        document.getElementById('unlockBtn').addEventListener('click', () => {
+            document.getElementById('premiumModal').classList.add('active');
+        });
+
+        document.getElementById('closeModal').addEventListener('click', () => {
+            document.getElementById('premiumModal').classList.remove('active');
+        });
+
+        document.getElementById('subscribeBtn').addEventListener('click', () => {
+            // Simula l'upgrade a premium
+            localStorage.setItem('isPremium', 'true');
+            isPremium = true;
+            showPremiumContent();
+            document.getElementById('premiumModal').classList.remove('active');
+            alert('✨ Benvenuto nel Premium! Riceverai 2 momenti quotidiani: mattino (8:00) e sera (21:00).');
+        });
+
+        document.getElementById('shareBtn').addEventListener('click', () => {
+            const word = document.getElementById('dailyWord').textContent;
+            const timeOfDay = isEvening ? 'sera' : 'mattino';
+            const text = `La mia parola di ${timeOfDay} è: ${word}\n\nScopri la tua su OneWordBeam ✨`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'OneWordBeam - Daily Inspiration',
+                    text: text
+                });
+            } else {
+                navigator.clipboard.writeText(text);
+                alert('📋 Testo copiato! Condividilo dove preferisci.');
+            }
+        });
+
+        // Inizializza al caricamento
+        init();
+    </script>
+</body>
+</html>
