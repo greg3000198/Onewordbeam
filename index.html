@@ -598,6 +598,480 @@
             }
           }
         ];
+        // ========== CONTENUTI AGGIUNTIVI ==========
+const moreDailyContent = [
+  {
+    morning: {
+      word: "SLANCIO",
+      desc: "Dai il primo passo. Lo slancio nasce dall'azione.",
+      premium: "Fai una cosa in 2 minuti che rimandi da giorni. Rompere l'inerzia crea movimento per tutto il resto."
+    },
+    evening: {
+      word: "DISTENSIONE",
+      desc: "Allenta la presa. Lascia che il corpo si ammolli nel riposo.",
+      premium: "Sdraiati e contrai tutto il corpo per 5 secondi, poi rilascia. Ripeti 3 volte: scioglie tensioni residue."
+    }
+  },
+  {
+    morning: {
+      word: "ORDINE",
+      desc: "Inizia ordinando il piccolo. Il grande seguirà.",
+      premium: "Sistema una micro-area (scrivania o comodino) per 3 minuti. L'ordine visivo schiarisce la mente."
+    },
+    evening: {
+      word: "CHIUSURA",
+      desc: "Chiudi i cerchi aperti. Domani ripartirai meglio.",
+      premium: "Scrivi su una nota: 'Domani riprendo da...'. Lascia il promemoria visibile e lascia andare per oggi."
+    }
+  },
+  {
+    morning: {
+      word: "SVEGLIA",
+      desc: "Svegliati con un'intenzione gentile, non con fretta.",
+      premium: "Prima di alzarti, stiracchiati consapevolmente dalla testa ai piedi per 60 secondi."
+    },
+    evening: {
+      word: "SOLLIEVO",
+      desc: "Concediti sollievo. Non devi portare tutto stanotte.",
+      premium: "Impacchi caldi su collo/spalle per 5 minuti. Il calore scioglie rigidità e favorisce il sonno."
+    }
+  },
+  {
+    morning: {
+      word: "PACE",
+      desc: "Porta pace nell'inizio. Influenzerà tutto il giorno.",
+      premium: "Ascolta 2 minuti di silenzio prima di parlare con chiunque. Stabilisce un ritmo più calmo."
+    },
+    evening: {
+      word: "DOLCEZZA",
+      desc: "Tratta la tua stanchezza con dolcezza.",
+      premium: "Bevi una tisana tiepida senza schermi. Siedi in silenzio finché non finisce: segnala al corpo che è notte."
+    }
+  },
+  {
+    morning: {
+      word: "RESILIENZA",
+      desc: "Ti rialzi. Sempre.",
+      premium: "Ricorda un momento superato. Scrivi una frase-forza: 'Anch'io oggi posso farcela'. Portala con te."
+    },
+    evening: {
+      word: "QUIETE",
+      desc: "Onora la quiete. È nutrimento.",
+      premium: "Imposta 15 minuti di modalità aereo prima del sonno. Riduce stimoli e favorisce la melatonina."
+    }
+  },
+  {
+    morning: {
+      word: "FLUSSO",
+      desc: "Lascia che le cose scorrano senza forzare.",
+      premium: "Lavora 20 minuti senza interruzioni (timer). Micro-flow mattutino = progresso reale."
+    },
+    evening: {
+      word: "ACCOGLIENZA",
+      desc: "Accogli ciò che senti, senza giudizio.",
+      premium: "Dai un nome all'emozione presente (1 parola). Nominarla riduce la sua intensità."
+    }
+  },
+  {
+    morning: {
+      word: "LUCIDITÀ",
+      desc: "Vedi chiaro con una mente semplice.",
+      premium: "Scrivi su carta la decisione più importante di oggi con PRO/CONTRO in 3 minuti. Poi agisci."
+    },
+    evening: {
+      word: "RICONCILIAZIONE",
+      desc: "Riconciliati con la giornata, com'è stata.",
+      premium: "Pensa a una persona o evento difficile; invia mentalmente una frase di pace. Alleggerisce il cuore."
+    }
+  },
+  {
+    morning: {
+      word: "SOLLIEVO",
+      desc: "Fai spazio al sollievo mattutino.",
+      premium: "Doccia tiepida con 30 secondi finali freschi. Stimola vigore e chiarezza."
+    },
+    evening: {
+      word: "RIPARO",
+      desc: "Crea un riparo morbido per la notte.",
+      premium: "Sistema cuscino e lenzuola come un nido confortevole; riassetta il letto per invogliare il corpo al sonno."
+    }
+  },
+  {
+    morning: {
+      word: "CENTRO",
+      desc: "Rientra al centro prima di uscire nel mondo.",
+      premium: "Mani su petto e pancia per 60 secondi. Respira sentendo il calore. Centra sistema nervoso."
+    },
+    evening: {
+      word: "SILENZIO",
+      desc: "Lascia che il silenzio ti ricarichi.",
+      premium: "5 minuti senza suoni. Se emergono pensieri, lasciali passare come nuvole."
+    }
+  },
+  {
+    morning: {
+      word: "GENTILEZZA",
+      desc: "Oggi scegli la gentilezza come forza.",
+      premium: "Fai un piccolo gesto gentile entro le 12 (messaggio, sorriso, aiuto). Rimbalza anche su di te."
+    },
+    evening: {
+      word: "TENEREZZA",
+      desc: "Tratta te stesso con tenerezza.",
+      premium: "Auto-abbraccio per 20 secondi. Stimola ossitocina e calma i battiti."
+    }
+  },
+  {
+    morning: {
+      word: "PRIORITÀ",
+      desc: "Una cosa alla volta. La più importante prima.",
+      premium: "Scrivi la tua #1 priorità su un post-it e mettilo davanti a te finché non è completata."
+    },
+    evening: {
+      word: "SOSPENSIONE",
+      desc: "Sospendi il giudizio su oggi.",
+      premium: "Pronuncia: 'Per oggi basta così'. Chiudi il laptop/agenda e non riaprire. Rispetta la chiusura."
+    }
+  },
+  {
+    morning: {
+      word: "FIDUCIA",
+      desc: "Apriti alla fiducia. Le cose si muovono.",
+      premium: "Cammina 5 minuti all'aria (anche intorno casa). Passi brevi accendono fiducia e presenza."
+    },
+    evening: {
+      word: "ASCOLTO",
+      desc: "Ascolta il corpo. Sa cosa gli serve.",
+      premium: "Siedi e poni la domanda: 'Di cosa ho bisogno ora?'. Accogli la prima risposta semplice."
+    }
+  },
+  {
+    morning: {
+      word: "RESPIRO",
+      desc: "Riparti dal respiro. È la tua base.",
+      premium: "Sequenza 4-4-6 per 2 minuti (inspira 4, trattieni 4, espira 6). Stabilizza l'attenzione."
+    },
+    evening: {
+      word: "BUIO",
+      desc: "Lascia che il buio ti protegga.",
+      premium: "Abbassa le luci 30 minuti prima. La penombra invita fisiologicamente al riposo."
+    }
+  },
+  {
+    morning: {
+      word: "PULIZIA",
+      desc: "Pulisci l'inizio, pulito sarà il resto.",
+      premium: "Bevi un bicchiere d'acqua prima di tutto. È un segnale di reset al corpo."
+    },
+    evening: {
+      word: "DETACH",
+      desc: "Stacca. Non tutto ha bisogno di te ora.",
+      premium: "Riponi il telefono fuori dalla camera. Caricalo in un'altra stanza."
+    }
+  },
+  {
+    morning: {
+      word: "CALMA",
+      desc: "Calma nel primo gesto, calma nel resto.",
+      premium: "Muoviti al 70% della velocità nelle prime attività. Rallentare all'inizio imposta il tono."
+    },
+    evening: {
+      word: "GRAZIE",
+      desc: "Un grazie chiude la giornata con bellezza.",
+      premium: "Scrivi 2 righe a una persona (anche te stesso) per cui provi gratitudine oggi."
+    }
+  },
+  {
+    morning: {
+      word: "SCELTA",
+      desc: "Scegli tu il ritmo di oggi.",
+      premium: "Decidi un micro-ritmo: 25' concentrazione / 5' pausa. Ripeti due volte nella mattina."
+    },
+    evening: {
+      word: "PROTEZIONE",
+      desc: "Proteggi il sonno come una risorsa sacra.",
+      premium: "Imposta DND fino a domattina. Lascia un numero solo per emergenze."
+    }
+  },
+  {
+    morning: {
+      word: "COERENZA",
+      desc: "Allinea azioni e valori.",
+      premium: "Scegli una micro-azione coerente col tuo valore guida. Fallo entro 1 ora dal risveglio."
+    },
+    evening: {
+      word: "DECOMPRESSIONE",
+      desc: "Decomprimi la mente dal giorno.",
+      premium: "Cammina 7 minuti dopo cena senza telefono. Lascia defluire i pensieri."
+    }
+  },
+  {
+    morning: {
+      word: "FRESCHEZZA",
+      desc: "Guarda oggi con occhi nuovi.",
+      premium: "Apri la finestra e fai tre respiri alla luce del giorno. Ingresso di freschezza nel sistema."
+    },
+    evening: {
+      word: "CALORE",
+      desc: "Il calore scioglie e conforta.",
+      premium: "Bevanda calda senza stimolanti. Tenere la tazza tra le mani calma i nervi."
+    }
+  },
+  {
+    morning: {
+      word: "SINTESI",
+      desc: "Riduci all'essenziale. L'essenziale ti libera.",
+      premium: "Scrivi in 1 riga l'obiettivo del giorno. Se non sta in 1 riga, è troppo."
+    },
+    evening: {
+      word: "LEGGERI",
+      desc: "Arriva leggero alla notte.",
+      premium: "Sostituisci lo scroll con 5 minuti di lettura leggera o musica soft."
+    }
+  },
+  {
+    morning: {
+      word: "RITMO",
+      desc: "Trova il tuo ritmo e difendilo.",
+      premium: "Blocca un 20' senza notifiche. Lavora su un compito singolo che conta."
+    },
+    evening: {
+      word: "SINTONIA",
+      desc: "Sintonizzati con il tuo corpo.",
+      premium: "Dolce stretching di caviglie, anche, schiena per 3–5 minuti prima del letto."
+    }
+  },
+  {
+    morning: {
+      word: "INTENTO",
+      desc: "Intendi, poi agisci.",
+      premium: "Completa la frase: 'Oggi porto… (calma/forza/gentilezza)'. Ripetila 3 volte."
+    },
+    evening: {
+      word: "PACE",
+      desc: "Pace è lasciare che sia.",
+      premium: "Se riemerge un pensiero, rispondi: 'Domani ci penso'. Rimanda con gentile fermezza."
+    }
+  },
+  {
+    morning: {
+      word: "FORZA",
+      desc: "La forza è quieta, non rumorosa.",
+      premium: "Fai 10 squat lenti. Attivazione dolce, stabilità mentale."
+    },
+    evening: {
+      word: "RACCOLTA",
+      desc: "Raccogli ciò che la giornata ti ha dato.",
+      premium: "Scrivi 1 insegnamento del giorno. Micro-diaristica, grande impatto."
+    }
+  },
+  {
+    morning: {
+      word: "CHIAREZZA",
+      desc: "Chiarezza prima, tutto il resto dopo.",
+      premium: "Elimina 1 micro-distrazione fisica dal tavolo o dal telefono. Piccoli tagli, grande chiarezza."
+    },
+    evening: {
+      word: "GENTILE",
+      desc: "Parla a te stesso con voce gentile.",
+      premium: "Sostituisci un pensiero duro con uno comprensivo. Nota la differenza nel corpo."
+    }
+  },
+  {
+    morning: {
+      word: "SCOPERTA",
+      desc: "Oggi scopri qualcosa di minuscolo e nuovo.",
+      premium: "Durante la prima camminata, nota 3 dettagli che non avevi mai visto nel percorso."
+    },
+    evening: {
+      word: "SOLLIEVO",
+      desc: "Lascia andare la performance notturna.",
+      premium: "Ripeti: 'Non devo fare bene il sonno, devo solo lasciarmi dormire'. Disinnesca la pressione."
+    }
+  },
+  {
+    morning: {
+      word: "LIMPIDO",
+      desc: "Tieni limpida la mente, come acqua chiara.",
+      premium: "Bevi acqua prima del caffè. È un'azione simbolica di pulizia mentale."
+    },
+    evening: {
+      word: "TENUE",
+      desc: "Tieni tenui le luci, tenui i pensieri.",
+      premium: "Usa solo luce calda/indiretta nell'ultima ora. L'ambiente informa la mente."
+    }
+  },
+  {
+    morning: {
+      word: "CURA",
+      desc: "Prenditi cura di te prima di tutto.",
+      premium: "Colazione semplice e vera (frutta/yogurt/fiocchi). Evita eccessi di zuccheri: regola l'umore."
+    },
+    evening: {
+      word: "MISURA",
+      desc: "La misura è un abbraccio al corpo.",
+      premium: "Evita schermi a letto. Se scappa di guardare, imposta 5 minuti e poi chiudi davvero."
+    }
+  },
+  {
+    morning: {
+      word: "SVEGLIO",
+      desc: "Svegliati anche dentro.",
+      premium: "Acqua fresca su viso e polsi. Micro-shock che attiva vigilanza."
+    },
+    evening: {
+      word: "MORBIDEZZA",
+      desc: "Sii morbido con te stesso.",
+      premium: "Scegli un pigiama/indumento comodo. Il corpo capisce che è tempo di riposo."
+    }
+  },
+  {
+    morning: {
+      word: "FOCOLAIO",
+      desc: "Accendi un piccolo fuoco interno.",
+      premium: "Respirazione naso-bocca: inspira naso 4, espira bocca 6 per 2 minuti. Centra e scalda."
+    },
+    evening: {
+      word: "BRACI",
+      desc: "Lascia che rimangano solo le braci del giorno.",
+      premium: "Spegni progressivamente attività e luci in 3 step. Nessuno spegnimento brusco."
+    }
+  },
+  {
+    morning: {
+      word: "LINEA",
+      desc: "Traccia la linea di oggi.",
+      premium: "Scrivi una micro-frase guida sul telefono come blocco schermo. Promemoria continuo."
+    },
+    evening: {
+      word: "TRACCIA",
+      desc: "Riconosci la traccia che hai lasciato.",
+      premium: "Annota 1 cosa che miglioreresti domani e 1 che ripeteresti uguale."
+    }
+  },
+  {
+    morning: {
+      word: "LEGAME",
+      desc: "Collegati a qualcosa o qualcuno con cuore.",
+      premium: "Invia un audio di 20 secondi a una persona cara: 'Buongiorno, pensavo a te'. Nutre connessioni."
+    },
+    evening: {
+      word: "RITROVO",
+      desc: "Ritrovati a fine giornata.",
+      premium: "Siedi 2 minuti a occhi chiusi e chiedi: 'Dove sono adesso?'. Sentire il corpo risponde."
+    }
+  },
+  {
+    morning: {
+      word: "ALBA",
+      desc: "Lascia che l'alba accada anche dentro.",
+      premium: "Tendine aperte e respiro alla finestra. Luce naturale segnala 'inizio' ai ritmi interni."
+    },
+    evening: {
+      word: "TRAMONTO",
+      desc: "Onora la fine come parte del ciclo.",
+      premium: "Osserva il cielo per 60 secondi al calare della luce. Piccolo rito di chiusura."
+    }
+  },
+  {
+    morning: {
+      word: "PRONTEZZA",
+      desc: "Sii pronto, non in allarme.",
+      premium: "Checklist di 3 elementi (chiavi/telefono/portafoglio). Riduce micro-stress d'uscita."
+    },
+    evening: {
+      word: "RIPOSO",
+      desc: "Il riposo è parte del lavoro.",
+      premium: "Programma l'ora di sonno sul telefono. Rispetta l'appuntamento con te stesso."
+    }
+  },
+  {
+    morning: {
+      word: "FOIAMORE",
+      desc: "Passione gentile: fai con amore, non con sforzo.",
+      premium: "Dedica 90 secondi a un'attività che ami (musica, sketch, foto). Accende creatività."
+    },
+    evening: {
+      word: "QUIETEINTERNA",
+      desc: "La quiete interna nasce da piccoli no.",
+      premium: "Di' no a un'ultima cosa superflua stasera. Proteggi il tuo spazio mentale."
+    }
+  },
+  {
+    morning: {
+      word: "RESO",
+      desc: "Rendi qualcosa migliore di come l'hai trovato.",
+      premium: "Lascia un luogo più ordinato di come l'hai trovato. Allenamento alla cura."
+    },
+    evening: {
+      word: "BILANCIO",
+      desc: "Fai un bilancio dolce, non severo.",
+      premium: "In 2 righe: cosa ho dato? cosa ho ricevuto? Poi chiudi il quaderno."
+    }
+  },
+  {
+    morning: {
+      word: "LUME",
+      desc: "Una scintilla guida tutta la giornata.",
+      premium: "Accendi una candela o una luce calda mentre fai colazione in silenzio per 2 minuti."
+    },
+    evening: {
+      word: "OMBRA",
+      desc: "Anche l'ombra ti protegge dal troppo.",
+      premium: "Riconosci un limite che oggi ti ha preservato. Ringrazialo mentalmente."
+    }
+  },
+  {
+    morning: {
+      word: "SEMPLICE",
+      desc: "Scegli la via semplice, non la più dura.",
+      premium: "Rimuovi un passaggio inutile da una routine (colazione, borse, email). Alleggerisci."
+    },
+    evening: {
+      word: "PIUME",
+      desc: "Diventa leggero come una piuma.",
+      premium: "Respiri a 'piuma': espira un filo d'aria lento come se spegnessi una candela lontana."
+    }
+  },
+  {
+    morning: {
+      word: "SORGENTE",
+      desc: "Torna alla tua sorgente.",
+      premium: "Rileggi una frase ispirante che ti ha aiutato in passato. Riattiva la tua fonte."
+    },
+    evening: {
+      word: "FOCOLARE",
+      desc: "Raccogliti al tuo focolare interiore.",
+      premium: "Scegli un gesto caldo (coperta, tisana, luce morbida). Crea rituale costante."
+    }
+  },
+  {
+    morning: {
+      word: "SGUARDO",
+      desc: "Dà uno sguardo lungo, non corto.",
+      premium: "Immagina tra 12 mesi te stesso grato per la costanza di oggi. 60 secondi di visualizzazione."
+    },
+    evening: {
+      word: "DISTESA",
+      desc: "Allarga la distesa del respiro.",
+      premium: "Espira un po' più lungo dell'inspiro per 2 minuti. Induce rilascio parasimpatico."
+    }
+  },
+  {
+    morning: {
+      word: "MICROVITTORIA",
+      desc: "Una microvittoria presto, e il giorno gira.",
+      premium: "Fai il letto appena alzato. È la prima vittoria: struttura la giornata."
+    },
+    evening: {
+      word: "MICROGRAZIE",
+      desc: "Un micrograzie e si chiude bene.",
+      premium: "Sussurra 'grazie' prima di spegnere la luce. Chiude in positivo la mente."
+    }
+  }
+];
+
+// 🔹 Unisci tutto in un unico array grande
+const allContent = [...dailyContent, ...moreDailyContent];
 
         // Stato dell'app
         let isPremium = false;
@@ -622,8 +1096,8 @@
                 timeIndicator.textContent = '☀️ Buongiorno';
             }
             
-            const dayIndex = Math.floor(Date.now() / (1000 * 60 * 60 * 24)) % dailyContent.length;
-            const today = dailyContent[dayIndex];
+            const dayIndex = Math.floor(Date.now() / (1000 * 60 * 60 * 24)) % allContent.length;
+            const today = allContent[dayIndex];
             const content = isEvening ? today.evening : today.morning;
 
             document.getElementById('dailyWord').textContent = content.word;
@@ -745,3 +1219,4 @@
     </script>
 </body>
 </html>
+
