@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OneWordBeam - Your Daily Light</title>
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#667eea">
     <style>
         * {
             margin: 0;
@@ -262,16 +264,47 @@
             margin-bottom: 1.5rem;
         }
 
+        .price-options {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .price-option {
+            flex: 1;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .price-option:hover {
+            border-color: #667eea;
+            background: #f9f9f9;
+        }
+
+        .price-option.selected {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
         .price {
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: 700;
             color: #667eea;
         }
 
-        .price-annual {
-            font-size: 1rem;
+        .price-period {
+            font-size: 0.9rem;
             opacity: 0.7;
-            margin-top: 0.5rem;
+        }
+
+        .price-savings {
+            font-size: 0.85rem;
+            color: #4caf50;
+            font-weight: 600;
+            margin-top: 0.3rem;
         }
 
         .modal-btn {
@@ -317,6 +350,9 @@
             .container {
                 padding: 1rem;
             }
+            .price-options {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -337,7 +373,7 @@
             
             <div id="lockedContent" class="locked-content">
                 <div class="premium-advice">
-                    💡 Appena sveglio, bevi 1 bicchiere d'acqua tiepida con limone. Reidrata dopo il digiuno notturno e attiva la digestione.
+                    💡 Appena sveglio, bevi 1 bicchiere d'acqua tiepida con limone...
                 </div>
             </div>
 
@@ -347,17 +383,16 @@
 
             <div class="premium-content" id="premiumContent">
                 <div class="premium-advice" id="premiumAdvice">
-                    <strong>💡 Consiglio del mattino:</strong><br><br>
-                    Appena sveglio, bevi 1 bicchiere d'acqua tiepida con limone. Reidrata dopo il digiuno notturno e attiva la digestione. Aspetta 15 minuti prima del caffè per evitare picchi di cortisolo.
+                    <strong>💡 Consiglio:</strong><br><br>
+                    Appena sveglio, bevi 1 bicchiere d'acqua tiepida con limone.
                 </div>
             </div>
         </div>
 
-        <!-- Sezione serale (solo per premium) -->
-        <div class="evening-locked" id="eveningSection">
+        <div class="evening-locked" id="eveningSection" style="display: none;">
             <div class="evening-locked-icon">🌙</div>
             <div class="evening-locked-text">
-                La parola della sera si sblocca alle 21:00 con Premium
+                La parola della sera si sblocca alle 20:00 con Premium
             </div>
             <small style="opacity: 0.7;">Ricevi un secondo momento di ispirazione prima di dormire</small>
         </div>
@@ -386,94 +421,200 @@
                 <strong>Con Premium ricevi:</strong>
                 <ul style="margin-top: 0.5rem;">
                     <li>☀️ <strong>Parola mattutina</strong> + consiglio pratico (8:00)</li>
-                    <li>🌙 <strong>Parola serale</strong> + consiglio rilassante (21:00)</li>
+                    <li>🌙 <strong>Parola serale</strong> + consiglio rilassante (20:00)</li>
                     <li>💡 Consigli su alimentazione, benessere, sonno</li>
                     <li>📊 Statistiche avanzate</li>
-                    <li>🎨 Temi personalizzati</li>
                 </ul>
             </div>
             <div class="pricing">
-                <div class="price">1€/mese</div>
-                <div class="price-annual">oppure 15€/anno (risparmi 20%)</div>
+                <div class="price-options">
+                    <div class="price-option selected" id="monthlyOption" data-plan="monthly">
+                        <div class="price">1€</div>
+                        <div class="price-period">/mese</div>
+                    </div>
+                    <div class="price-option" id="yearlyOption" data-plan="yearly">
+                        <div class="price">15€</div>
+                        <div class="price-period">/anno</div>
+                        <div class="price-savings">Risparmi 20%</div>
+                    </div>
+                </div>
             </div>
-            <button class="modal-btn" id="subscribeBtn">Inizia ora</button>
+            <button class="modal-btn" id="subscribeBtn">Continua al pagamento</button>
             <button class="close-modal" id="closeModal">Continua gratis (solo mattino)</button>
         </div>
     </div>
 
     <script>
-        // Database delle parole MATTINO
-        const morningWords = [
-            { 
-                word: "ENERGIA", 
-                desc: "Oggi porta energia in tutto ciò che fai. L'energia attrae opportunità.",
-                premium: "Appena sveglio, bevi 1 bicchiere d'acqua tiepida con limone. Reidrata dopo il digiuno notturno e attiva la digestione. Aspetta 15 minuti prima del caffè per evitare picchi di cortisolo."
-            },
-            { 
-                word: "FOCUS", 
-                desc: "Concentrati su ciò che conta davvero. Il resto è rumore.",
-                premium: "Inizia la giornata con la 'regola del 3': identifica le 3 cose più importanti da fare oggi. Completale prima di tutto il resto. Aumenta la produttività del 40%."
-            },
-            { 
-                word: "GRATITUDINE", 
-                desc: "Inizia riconoscendo ciò che già hai. La gratitudine moltiplica l'abbondanza.",
-                premium: "Prima di alzarti dal letto, pensa a 3 cose per cui sei grato. Questa pratica mattutina aumenta l'ottimismo e riduce l'ansia del 25%."
-            },
-            { 
-                word: "MOVIMENTO", 
-                desc: "Il corpo è fatto per muoversi. Inizia in movimento.",
-                premium: "Fai 5 minuti di stretching dinamico appena sveglio: collo, spalle, schiena, gambe. Attiva la circolazione e prepara il corpo alla giornata."
-            },
-            { 
-                word: "CHIAREZZA", 
-                desc: "Una mente chiara prende decisioni migliori.",
-                premium: "Fai un 'brain dump' mattutino: scrivi tutto ciò che hai in testa per 5 minuti senza filtri. Libera la mente e inizia la giornata con chiarezza."
-            }
-        ];
+        // ========== CONFIGURAZIONE GOOGLE PLAY BILLING ==========
+        const PLAY_PRODUCTS = {
+            monthly: 'premium_monthly',
+            yearly: 'premium_yearly'
+        };
 
-        // Database delle parole SERA
-        const eveningWords = [
-            { 
-                word: "QUIETE", 
-                desc: "La sera è per rilasciare. Lascia andare ciò che non ti serve più.",
-                premium: "Spegni tutti gli schermi 1 ora prima di dormire. Leggi 10 pagine di un libro cartaceo. La luce blu riduce melatonina del 50%, il libro cartaceo la favorisce."
+        // ========== DATABASE CONTENUTI ==========
+        const dailyContent = [
+          {
+            morning: {
+              word: "ENERGIA",
+              desc: "Oggi porta energia in tutto ciò che fai. L'energia attrae opportunità.",
+              premium: "Appena sveglio, bevi 1 bicchiere d'acqua tiepida con limone. Reidrata dopo il digiuno notturno e attiva la digestione. Aspetta 15 minuti prima del caffè per evitare picchi di cortisolo."
             },
-            { 
-                word: "RIFLESSIONE", 
-                desc: "Rifletti sulla giornata. Cosa hai imparato?",
-                premium: "Prima di dormire, scrivi: 1 vittoria del giorno, 1 cosa da migliorare, 1 gratitudine. Questo rituale migliora il sonno e l'autoconsapevolezza."
-            },
-            { 
-                word: "RESPIRO", 
-                desc: "Respira profondamente. Rilassa corpo e mente.",
-                premium: "Pratica la respirazione 4-7-8: inspira per 4 secondi, trattieni per 7, espira per 8. Ripeti 4 volte. Attiva il parasimpatico e prepara al sonno."
-            },
-            { 
-                word: "PERDONO", 
-                desc: "Perdona te stesso per gli errori di oggi. Domani è un nuovo inizio.",
-                premium: "Prima di dormire, ripeti mentalmente: 'Ho fatto del mio meglio oggi. Merito riposo'. Il perdono serale riduce il cortisolo notturno."
-            },
-            { 
-                word: "GRATITUDINE", 
-                desc: "Chiudi la giornata con riconoscenza. Il sonno sarà più sereno.",
-                premium: "Tieni un diario della gratitudine sul comodino. Scrivi 3 cose positive prima di spegnere la luce. Migliora la qualità del sonno del 30%."
+            evening: {
+              word: "QUIETE",
+              desc: "La sera è per rilasciare. Lascia andare ciò che non ti serve più.",
+              premium: "Spegni tutti gli schermi 1 ora prima di dormire. Leggi 10 pagine di un libro cartaceo. La luce blu riduce melatonina del 50%, il libro cartaceo la favorisce."
             }
+          },
+          {
+            morning: {
+              word: "FOCUS",
+              desc: "Concentrati su ciò che conta davvero. Il resto è rumore.",
+              premium: "Inizia la giornata con la 'regola del 3': identifica le 3 cose più importanti da fare oggi. Completale prima di tutto il resto. Aumenta la produttività del 40%."
+            },
+            evening: {
+              word: "RIFLESSIONE",
+              desc: "Rifletti sulla giornata. Cosa hai imparato?",
+              premium: "Prima di dormire, scrivi: 1 vittoria del giorno, 1 cosa da migliorare, 1 gratitudine. Questo rituale migliora il sonno e l'autoconsapevolezza."
+            }
+          },
+          {
+            morning: {
+              word: "GRATITUDINE",
+              desc: "Inizia riconoscendo ciò che già hai. La gratitudine moltiplica l'abbondanza.",
+              premium: "Prima di alzarti dal letto, pensa a 3 cose per cui sei grato. Questa pratica mattutina aumenta l'ottimismo e riduce l'ansia del 25%."
+            },
+            evening: {
+              word: "RESPIRO",
+              desc: "Respira profondamente. Rilassa corpo e mente.",
+              premium: "Pratica la respirazione 4-7-8: inspira per 4 secondi, trattieni per 7, espira per 8. Ripeti 4 volte. Attiva il parasimpatico e prepara al sonno."
+            }
+          },
+          {
+            morning: {
+              word: "MOVIMENTO",
+              desc: "Il corpo è fatto per muoversi. Inizia in movimento.",
+              premium: "Fai 5 minuti di stretching dinamico appena sveglio: collo, spalle, schiena, gambe. Attiva la circolazione e prepara il corpo alla giornata."
+            },
+            evening: {
+              word: "PERDONO",
+              desc: "Perdona te stesso per gli errori di oggi. Domani è un nuovo inizio.",
+              premium: "Prima di dormire, ripeti mentalmente: 'Ho fatto del mio meglio oggi. Merito riposo'. Il perdono serale riduce il cortisolo notturno."
+            }
+          },
+          {
+            morning: {
+              word: "CHIAREZZA",
+              desc: "Una mente chiara prende decisioni migliori.",
+              premium: "Fai un 'brain dump' mattutino: scrivi tutto ciò che hai in testa per 5 minuti senza filtri. Libera la mente e inizia la giornata con chiarezza."
+            },
+            evening: {
+              word: "GRATITUDINE",
+              desc: "Chiudi la giornata con riconoscenza. Il sonno sarà più sereno.",
+              premium: "Tieni un diario della gratitudine sul comodino. Scrivi 3 cose positive prima di spegnere la luce. Migliora la qualità del sonno del 30%."
+            }
+          },
+          {
+            morning: {
+              word: "PRESENZA",
+              desc: "Sii qui, ora. Il momento presente è l'unico in cui puoi davvero vivere.",
+              premium: "Prima di alzarti, fai 10 respiri profondi concentrandoti solo su di essi. Questa pratica ancora nel presente e riduce ansia anticipatoria."
+            },
+            evening: {
+              word: "RILASCIO",
+              desc: "Rilascia le tensioni accumulate. Il corpo ricorda.",
+              premium: "Fai uno 'body scan' di 5 minuti: porta attenzione a ogni parte del corpo e rilascia consapevolmente la tensione. Migliora qualità del sonno."
+            }
+          },
+          {
+            morning: {
+              word: "PROPOSITO",
+              desc: "Ogni giornata ha bisogno di un proposito. Qual è il tuo oggi?",
+              premium: "Scrivi il tuo intento del giorno in una frase: 'Oggi sarò...' (es: presente, gentile, produttivo). Rileggilo 3 volte durante il giorno."
+            },
+            evening: {
+              word: "COMPLETAMENTO",
+              desc: "Chiudi i cicli aperti. Lascia andare ciò che è finito.",
+              premium: "Dedica 10 minuti al 'reset serale': riordina 1 ambiente, prepara vestiti per domani, svuota borsa/zaino. Il completamento favorisce il sonno."
+            }
+          },
+          {
+            morning: {
+              word: "VITALITÀ",
+              desc: "Risveglia la tua vitalità. L'energia è dentro di te.",
+              premium: "Fai 20 jumping jacks appena sveglio. L'attivazione cardiovascolare aumenta energia per le successive 4 ore del 35%."
+            },
+            evening: {
+              word: "SERENITÀ",
+              desc: "La serenità si coltiva. Inizia questa sera.",
+              premium: "Ascolta musica a 432Hz per 10 minuti prima di dormire. Questa frequenza riduce battito cardiaco e favorisce rilassamento profondo."
+            }
+          },
+          {
+            morning: {
+              word: "CORAGGIO",
+              desc: "Il coraggio non è assenza di paura. È azione nonostante essa.",
+              premium: "Identifica 1 cosa che ti spaventa oggi e falla per prima. Il 'frog eating' mattutino costruisce coraggio e momentum."
+            },
+            evening: {
+              word: "ACCETTAZIONE",
+              desc: "Accetta ciò che è stato oggi. Non puoi cambiare il passato.",
+              premium: "Pratica il 'radical acceptance': riconosci 1 cosa che non è andata come volevi e ripeti 'È stato così, e va bene'. Riduce rimuginio notturno."
+            }
+          },
+          {
+            morning: {
+              word: "NUTRIMENTO",
+              desc: "Nutri corpo e mente con ciò che li fa prosperare.",
+              premium: "Prepara uno smoothie verde: spinaci, banana, mela, zenzero, acqua. 3 porzioni di frutta/verdura in 1 bicchiere, energia immediata."
+            },
+            evening: {
+              word: "PURIFICAZIONE",
+              desc: "Purifica la mente dai pensieri tossici.",
+              premium: "Scrivi su carta tutti i pensieri negativi, poi strappa il foglio. Questo rituale simbolico 'pulisce' la mente prima del sonno."
+            }
+          },
+          {
+            morning: {
+              word: "DETERMINAZIONE",
+              desc: "La determinazione trasforma l'impossibile in inevitabile.",
+              premium: "Visualizza per 2 minuti il tuo obiettivo già raggiunto. Vedi, senti, percepisci come se fosse reale. Il cervello non distingue: si prepara al successo."
+            },
+            evening: {
+              word: "RESA",
+              desc: "Arrenditi alla giornata. Hai fatto abbastanza.",
+              premium: "Pratica la 'resa consapevole': sdraiati, respira e ripeti 'Mi arrendo a ciò che è'. Riduce resistenza e tensione muscolare."
+            }
+          },
+          {
+            morning: {
+              word: "LUCE",
+              desc: "Porta luce in ogni angolo della tua giornata.",
+              premium: "Esponiti alla luce naturale entro 30 minuti dal risveglio per almeno 10 minuti. Regola il ritmo circadiano e migliora umore."
+            },
+            evening: {
+              word: "OMBRA",
+              desc: "L'ombra è parte di te. Accoglila.",
+              premium: "Riconosci 1 aspetto di te che non accetti. Scrivilo e ripeti: 'Questa è una parte di me, e va bene'. L'integrazione riduce conflitto interiore."
+            }
+          }
         ];
 
         // Stato dell'app
         let isPremium = false;
         let streak = parseInt(localStorage.getItem('streak') || '1');
         let isEvening = false;
+        let selectedPlan = 'monthly';
+
+        // Controlla stato premium
+        checkPremiumStatus();
 
         // Inizializza l'app
         function init() {
             const now = new Date();
             const hour = now.getHours();
             
-            // Determina se è mattino o sera
-            isEvening = hour >= 21 || hour < 6;
+            isEvening = hour >= 20 || hour < 6;
             
-            // Aggiorna indicatore tempo
             const timeIndicator = document.getElementById('timeIndicator');
             if (isEvening) {
                 timeIndicator.textContent = '🌙 Buonasera';
@@ -481,46 +622,31 @@
                 timeIndicator.textContent = '☀️ Buongiorno';
             }
             
-            // Ottieni la parola del giorno basata sulla data
-            const dayIndex = Math.floor(Date.now() / (1000 * 60 * 60 * 24)) % morningWords.length;
-            const todayMorning = morningWords[dayIndex];
-            const todayEvening = eveningWords[dayIndex];
+            const dayIndex = Math.floor(Date.now() / (1000 * 60 * 60 * 24)) % dailyContent.length;
+            const today = dailyContent[dayIndex];
+            const content = isEvening ? today.evening : today.morning;
 
-            // Se è sera E l'utente NON è premium, mostra il contenuto serale bloccato
-            if (isEvening && !isPremium) {
-                document.getElementById('dailyWord').textContent = todayEvening.word;
-                document.querySelector('.word-description').textContent = todayEvening.desc;
-                document.querySelector('.premium-advice').innerHTML = `<strong>💡 Consiglio della sera:</strong><br><br>${todayEvening.premium}`;
-            } else {
-                // Mostra contenuto mattutino
-                document.getElementById('dailyWord').textContent = todayMorning.word;
-                document.querySelector('.word-description').textContent = todayMorning.desc;
-                document.querySelector('.premium-advice').innerHTML = `<strong>💡 Consiglio del mattino:</strong><br><br>${todayMorning.premium}`;
-            }
+            document.getElementById('dailyWord').textContent = content.word;
+            document.getElementById('wordDescription').textContent = content.desc;
+            document.getElementById('premiumAdvice').innerHTML = `<strong>💡 Consiglio ${isEvening ? 'della sera' : 'del mattino'}:</strong><br><br>${content.premium}`;
 
             document.getElementById('streak').textContent = streak;
 
-            // Controlla se l'utente ha già visitato oggi
             const lastVisit = localStorage.getItem('lastVisit');
-            const today = new Date().toDateString();
+            const today_str = new Date().toDateString();
             
-            if (lastVisit !== today) {
+            if (lastVisit !== today_str) {
                 if (lastVisit && isYesterday(lastVisit)) {
                     streak++;
                 } else if (lastVisit) {
                     streak = 1;
                 }
                 localStorage.setItem('streak', streak.toString());
-                localStorage.setItem('lastVisit', today);
+                localStorage.setItem('lastVisit', today_str);
                 document.getElementById('streak').textContent = streak;
             }
 
-            // Controlla stato premium
-            isPremium = localStorage.getItem('isPremium') === 'true';
-            if (isPremium) {
-                showPremiumContent();
-            } else if (isEvening) {
-                // Se è sera e non è premium, mostra la sezione serale bloccata
+            if (isEvening && !isPremium) {
                 document.getElementById('eveningSection').style.display = 'block';
             }
         }
@@ -538,6 +664,42 @@
             document.getElementById('eveningSection').style.display = 'none';
         }
 
+        function checkPremiumStatus() {
+            isPremium = localStorage.getItem('isPremium') === 'true';
+            
+            if (isPremium) {
+                showPremiumContent();
+            }
+        }
+
+        function purchasePremium(plan) {
+            if (typeof Android !== 'undefined' && Android.purchaseSubscription) {
+                const productId = PLAY_PRODUCTS[plan];
+                Android.purchaseSubscription(productId);
+            } else {
+                console.log('Test mode: simulazione acquisto', plan);
+                alert('🎉 Modalità test: acquisto simulato!\n\nIn produzione userà Google Play Billing.\n\nProdotto: ' + PLAY_PRODUCTS[plan]);
+                
+                localStorage.setItem('isPremium', 'true');
+                isPremium = true;
+                showPremiumContent();
+                document.getElementById('premiumModal').classList.remove('active');
+            }
+        }
+
+        function onPurchaseSuccess() {
+            localStorage.setItem('isPremium', 'true');
+            isPremium = true;
+            showPremiumContent();
+            document.getElementById('premiumModal').classList.remove('active');
+            alert('✨ Benvenuto nel Premium! Riceverai 2 momenti quotidiani: mattino (8:00) e sera (20:00).');
+        }
+
+        function onPurchaseError(error) {
+            alert('❌ Acquisto non completato. Riprova.');
+            console.error('Purchase error:', error);
+        }
+
         // Event listeners
         document.getElementById('unlockBtn').addEventListener('click', () => {
             document.getElementById('premiumModal').classList.add('active');
@@ -547,13 +709,20 @@
             document.getElementById('premiumModal').classList.remove('active');
         });
 
+        document.getElementById('monthlyOption').addEventListener('click', () => {
+            selectedPlan = 'monthly';
+            document.getElementById('monthlyOption').classList.add('selected');
+            document.getElementById('yearlyOption').classList.remove('selected');
+        });
+
+        document.getElementById('yearlyOption').addEventListener('click', () => {
+            selectedPlan = 'yearly';
+            document.getElementById('yearlyOption').classList.add('selected');
+            document.getElementById('monthlyOption').classList.remove('selected');
+        });
+
         document.getElementById('subscribeBtn').addEventListener('click', () => {
-            // Simula l'upgrade a premium
-            localStorage.setItem('isPremium', 'true');
-            isPremium = true;
-            showPremiumContent();
-            document.getElementById('premiumModal').classList.remove('active');
-            alert('✨ Benvenuto nel Premium! Riceverai 2 momenti quotidiani: mattino (8:00) e sera (21:00).');
+            purchasePremium(selectedPlan);
         });
 
         document.getElementById('shareBtn').addEventListener('click', () => {
@@ -572,7 +741,6 @@
             }
         });
 
-        // Inizializza al caricamento
         init();
     </script>
 </body>
