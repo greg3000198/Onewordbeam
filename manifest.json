@@ -1,15 +1,13 @@
 {
   "name": "OneWordBeam",
   "short_name": "OWB",
-  "description": "Il tuo raggio di ispirazione quotidiano",
+  "description": "Your daily beam of inspiration - morning and evening",
   "start_url": "/",
-  "scope": "/",
   "display": "standalone",
-  "orientation": "portrait",
   "background_color": "#667eea",
   "theme_color": "#667eea",
-  "dir": "ltr",
-  "lang": "it",
+  "orientation": "portrait",
+  "scope": "/",
   "icons": [
     {
       "src": "/icon-192.png",
@@ -23,9 +21,9 @@
       "type": "image/png",
       "purpose": "any maskable"
     }
-  ],
-  "categories": ["health", "lifestyle", "productivity"]
+  ]
 }
+
 
 
 
