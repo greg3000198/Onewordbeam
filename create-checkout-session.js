@@ -9,7 +9,6 @@ module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  // Handle preflight
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
@@ -19,14 +18,19 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const { priceId } = req.body;
+    const { priceId, userEmail } = req.body;
 
     if (!priceId) {
-      return res.status(400).json({ error: 'Price ID mancante' });
+      return res.status(400).json({ error: 'Price ID richiesto' });
     }
 
-    // Crea la sessione di checkout Stripe
+    if (!userEmail) {
+      return res.status(400).json({ error: 'Email richiesta' });
+    }
+
+    // Crea sessione Stripe Checkout
     const session = await stripe.checkout.sessions.create({
+      mode: 'subscription',
       payment_method_types: ['card'],
       line_items: [
         {
@@ -34,17 +38,16 @@ module.exports = async (req, res) => {
           quantity: 1,
         },
       ],
-      mode: 'subscription',
-      success_url: `${req.headers.origin || 'https://onewordbeam.com'}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${req.headers.origin || 'https://onewordbeam.com'}/subscribe`,
-      customer_email: req.body.email || undefined,
-      allow_promotion_codes: true,
-      billing_address_collection: 'required',
+      customer_email: userEmail, // Email dell'utente
+      client_reference_id: userEmail, // Per identificare l'utente nel webhook
+      success_url: 'https://onewordbeam.com/success.html?session_id={CHECKOUT_SESSION_ID}',
+      cancel_url: 'https://onewordbeam.com/subscribe.html',
+      allow_promotion_codes: true, // Permette codici sconto
     });
 
-    res.status(200).json({ sessionId: session.id });
+    res.status(200).json({ url: session.url });
   } catch (error) {
     console.error('Errore creazione sessione:', error);
-    res.status(500).json({ error: 'Errore server', message: error.message });
+    res.status(500).json({ error: error.message });
   }
 };
